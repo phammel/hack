@@ -19,9 +19,9 @@ class ViewController: UIViewController {
     
     var counter = 0 //counter for how many times you vibrate
     var timer : NSTimer?     //timer
-    var timeLength = 0
-    var numberOf = 0
-    var timeRealLength = 0.0
+    var timeLength = 0    // temp var to hold value from slider
+    var numberOf = 0   //number of times to vibrate Vibrate
+    var timeRealLength = 0.0 //how long in between Vibrations
     
     override func viewDidLoad()
     {
@@ -33,8 +33,13 @@ class ViewController: UIViewController {
 
     @IBAction func starttapped(sender: AnyObject)
     {
-        
+    
+        //set timelength to int value
         timeLength = (Int)(timeSlide.value)
+        
+        
+        //case switch to pick length between vibrations
+        
         switch timeLength
         {
         case 1 :
@@ -69,25 +74,28 @@ class ViewController: UIViewController {
         //create button for alert
         let resetbutton = UIAlertAction(title: "Done", style: UIAlertActionStyle.Default, handler: {sender in
             
-            //closes the alert
-            self.dismissViewControllerAnimated(true, completion: nil)
+        //closes the alert when tap done button
+        self.dismissViewControllerAnimated(true, completion: nil)
+        
+        
             
             })
         
         
         //-----------
-          timer = nil
+          timer = nil  // reset timer
         
         counter = 0 // set timer for 0 since it hasnt vibrated once
         
         //create timer that after complete goes to vibrate function then repeats
+        
         timer = NSTimer.scheduledTimerWithTimeInterval(timeRealLength, target: self, selector: "vibratePhoneAlert", userInfo: nil, repeats: true)
         
         //--------------
         
         alert.addAction(resetbutton) //adds button to alert
         presentViewController(alert, animated: true, completion: nil) //show alert 
-        //end of alert
+        
         
         
         
@@ -104,18 +112,16 @@ class ViewController: UIViewController {
     {
         counter++  // increment counter because u will have vibrated
        
-        numberOf = (Int)(numberSlider.value)
+        numberOf = (Int)(numberSlider.value) //set the number of times to vibrate to an int
         
        //  go to case number for how many times you have vibrated
         
         switch counter
         {
         case 1 ... numberOf:   //once vibrates twice will go to default
-            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
-            print(timeRealLength)
-            print(timeSlide.value)
+            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate) //vibrate phone
         default:
-            timer?.invalidate() //stops the timer from repeating
+            timer?.invalidate() //stops the timer from repeating once gone through all the cases
         }
 }
 
