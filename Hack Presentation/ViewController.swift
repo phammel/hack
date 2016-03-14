@@ -38,27 +38,27 @@ class ViewController: UIViewController {
         switch timeLength
         {
         case 1 :
-            timeRealLength = 15
-        case 2 :
-            timeRealLength = 10
-        case 3:
-            timeRealLength = 9
-        case 4:
-            timeRealLength = 7
-        case 5:
-            timeRealLength = 5
-        case 6:
-            timeRealLength = 3
-        case 7:
-            timeRealLength = 1
-        case 8:
-            timeRealLength = 0.9
-        case 9:
-            timeRealLength = 0.5
-        case 10:
-            timeRealLength = 0.3
-        default:
             timeRealLength = 0.1
+        case 2 :
+            timeRealLength = 0.6
+        case 3:
+            timeRealLength = 1
+        case 4:
+            timeRealLength = 2
+        case 5:
+            timeRealLength = 3
+        case 6:
+            timeRealLength = 4
+        case 7:
+            timeRealLength = 5
+        case 8:
+            timeRealLength = 6
+        case 9:
+            timeRealLength = 7
+        case 10:
+            timeRealLength = 8
+        default:
+            timeRealLength = 0.5
         }
         
         //alert
@@ -76,16 +76,23 @@ class ViewController: UIViewController {
         
         
         //-----------
+          timer = nil
+        
         counter = 0 // set timer for 0 since it hasnt vibrated once
         
         //create timer that after complete goes to vibrate function then repeats
         timer = NSTimer.scheduledTimerWithTimeInterval(timeRealLength, target: self, selector: "vibratePhoneAlert", userInfo: nil, repeats: true)
+        
         //--------------
         
         alert.addAction(resetbutton) //adds button to alert
         presentViewController(alert, animated: true, completion: nil) //show alert 
         //end of alert
         
+        
+        
+      
+
 
         
        
@@ -97,15 +104,20 @@ class ViewController: UIViewController {
     {
         counter++  // increment counter because u will have vibrated
        
-        // go to case number for how many times you have vibrated
+        numberOf = (Int)(numberSlider.value)
+        
+       //  go to case number for how many times you have vibrated
+        
         switch counter
         {
-        case 1 ... 2:   //once vibrates twice will go to default
+        case 1 ... numberOf:   //once vibrates twice will go to default
             AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+            print(timeRealLength)
+            print(timeSlide.value)
         default:
             timer?.invalidate() //stops the timer from repeating
         }
-     }
+}
 
     //-------------------------------------------------------------------------------------------
 
